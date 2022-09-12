@@ -1,8 +1,8 @@
 Package: com.kimjio.umamusumelocalify
-Name: Umamusume-Localify
-Version: 0.0.1
+Name: UmamusumeLocalify
+Version: 1.0.0
 Architecture: iphoneos-arm
-Description: An awesome MobileSubstrate tweak!
+Description: umamusume-localify iOS version.
 Maintainer: Kimjio
 Author: Kimjio
 Section: Tweaks
