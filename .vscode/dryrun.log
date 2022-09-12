@@ -1,0 +1,123 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/Users/kjo0927/umamusume-localify-ios'
+ 
+\
+abs_build_dir=.; \
+if [[ "" != "" ]]; then \
+  printf "\e[1;31m> \e[1;3;39m%s…\e[m\n" "Making all in subprojects of tweak UmamusumeLocalify"; \
+  for d in ; do \
+    d="${d%:*}"; \
+    if [[ "${abs_build_dir}" = "." ]]; then \
+      lbuilddir="."; \
+    else \
+      lbuilddir="${abs_build_dir}/$d"; \
+    fi; \
+    if make -C $d -f Makefile --no-keep-going COLOR=1 --no-print-directory all \
+        THEOS_BUILD_DIR="$lbuilddir" \
+       ; then\
+       :; \
+    else exit $?; \
+    fi; \
+  done; \
+ fi; \
+printf "\e[1;31m> \e[1;3;39m%s…\e[m\n" "Making all for tweak UmamusumeLocalify"; \
+make -f Makefile --no-keep-going COLOR=1 --no-print-directory \
+internal-tweak-all \
+_THEOS_CURRENT_TYPE="tweak" \
+THEOS_CURRENT_INSTANCE="UmamusumeLocalify" \
+_THEOS_CURRENT_OPERATION="all" \
+THEOS_BUILD_DIR="."
+ 
+[1;31m> [1;3;39mMaking all for tweak UmamusumeLocalify…[m
+ 
+fcntl(): Bad file descriptor
+
+for i in src/utils.m src/Tweak.xm src/hook.cpp src/il2cpp_hook.cpp src/localify/localify.cpp src/il2cpp/il2cpp_symbols.cpp; do \
+	if [[ ! -f "$i" ]]; then \
+		printf "\e[0;31m==> \e[1;31mError:\e[m %s\n" "File $i does not exist."  >&2; exit 1; \
+	fi; \
+done
+mkdir -p /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/src/; touch /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/src/.stamp
+ 
+fcntl(): Bad file descriptor
+
+fcntl(): Bad file descriptor
+
+mkdir -p /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/src/il2cpp/; touch /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/src/il2cpp/.stamp
+ 
+fcntl(): Bad file descriptor
+
+mkdir -p /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/src/localify/; touch /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/src/localify/.stamp
+make -f Makefile --no-keep-going COLOR=1 --no-print-directory \
+	internal-library-compile \
+	_THEOS_CURRENT_TYPE=tweak THEOS_CURRENT_INSTANCE=UmamusumeLocalify _THEOS_CURRENT_OPERATION=compile \
+	THEOS_BUILD_DIR="." _THEOS_MAKE_PARALLEL=yes
+ 
+fcntl(): Bad file descriptor
+
+mkdir -p /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64
+make -f Makefile --no-print-directory --no-keep-going internal-tweak-compile _THEOS_CURRENT_TYPE="tweak" THEOS_CURRENT_INSTANCE="UmamusumeLocalify" _THEOS_CURRENT_OPERATION="compile" THEOS_BUILD_DIR="." THEOS_CURRENT_ARCH="arm64"
+ 
+fcntl(): Bad file descriptor
+
+mkdir -p /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e
+make -f Makefile --no-print-directory --no-keep-going internal-tweak-compile _THEOS_CURRENT_TYPE="tweak" THEOS_CURRENT_INSTANCE="UmamusumeLocalify" _THEOS_CURRENT_OPERATION="compile" THEOS_BUILD_DIR="." THEOS_CURRENT_ARCH="arm64e"
+ 
+fcntl(): Bad file descriptor
+fcntl(): Bad file descriptor
+
+(mkdir -p /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/)
+(printf "\e[0;3%im==> \e[1;39m%s…\e[m\n" 2 "Compiling src/utils.m (arm64e)"); set -o pipefail; (/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -x objective-c -c -I/Users/kjo0927/theos/include -I/Users/kjo0927/theos/vendor/include -I/Users/kjo0927/theos/include/_fallback -include /Users/kjo0927/theos/Prefix.pch -MT /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/utils.m.ee373efb.o -MMD -MP -MF "/Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/utils.m.ee373efb.Td" -fcolor-diagnostics -DTARGET_IPHONE=1 -O0 -Wall -ggdb -Werror  -isysroot "/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk" -target arm64e-apple-ios13.0   -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=return-stack-address -std=c17 -fobjc-arc -DDEBUG -O0  -DTHEOS_INSTANCE_NAME="\"UmamusumeLocalify\"" -fmodules -fcxx-modules -fmodule-name=UmamusumeLocalify -fbuild-session-file=/Users/kjo0927/umamusume-localify-ios/.theos/build_session -fmodules-prune-after=345600 -fmodules-prune-interval=86400 -fmodules-validate-once-per-build-session  -arch arm64e      src/utils.m -o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/utils.m.ee373efb.o)
+(mkdir -p /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/)
+(printf "\e[0;3%im==> \e[1;39m%s…\e[m\n" 2 "Compiling src/utils.m (arm64)"); set -o pipefail; (/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -x objective-c -c -I/Users/kjo0927/theos/include -I/Users/kjo0927/theos/vendor/include -I/Users/kjo0927/theos/include/_fallback -include /Users/kjo0927/theos/Prefix.pch -MT /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/utils.m.e4aaa137.o -MMD -MP -MF "/Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/utils.m.e4aaa137.Td" -fcolor-diagnostics -DTARGET_IPHONE=1 -O0 -Wall -ggdb -Werror  -isysroot "/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk" -target arm64-apple-ios13.0   -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=return-stack-address -std=c17 -fobjc-arc -DDEBUG -O0  -DTHEOS_INSTANCE_NAME="\"UmamusumeLocalify\"" -fmodules -fcxx-modules -fmodule-name=UmamusumeLocalify -fbuild-session-file=/Users/kjo0927/umamusume-localify-ios/.theos/build_session -fmodules-prune-after=345600 -fmodules-prune-interval=86400 -fmodules-validate-once-per-build-session  -arch arm64      src/utils.m -o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/utils.m.e4aaa137.o)
+ 
+fcntl(): Bad file descriptor
+
+fcntl(): Bad file descriptor
+
+(mkdir -p /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/)
+(printf "\e[0;3%im==> \e[1;39m%s…\e[m\n" 1 "Preprocessing src/Tweak.xm"); set -o pipefail; (/Users/kjo0927/theos/bin/logos.pl -c warnings=error -c generator=MobileSubstrate    src/Tweak.xm > /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/Tweak.xm.mm)
+(mkdir -p /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/)
+(printf "\e[0;3%im==> \e[1;39m%s…\e[m\n" 1 "Preprocessing src/Tweak.xm"); set -o pipefail; (/Users/kjo0927/theos/bin/logos.pl -c warnings=error -c generator=MobileSubstrate    src/Tweak.xm > /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/Tweak.xm.mm)
+ 
+fcntl(): Bad file descriptor
+
+fcntl(): Bad file descriptor
+
+(mkdir -p /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/)
+(printf "\e[0;3%im==> \e[1;39m%s…\e[m\n" 2 "Compiling src/Tweak.xm (arm64)"); set -o pipefail; (/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -x objective-c++ -c -I"/Users/kjo0927/umamusume-localify-ios/src" -I/Users/kjo0927/theos/include -I/Users/kjo0927/theos/vendor/include -I/Users/kjo0927/theos/include/_fallback -include /Users/kjo0927/theos/Prefix.pch -MT /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/Tweak.xm.e4aaa137.o -MMD -MP -MF "/Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/Tweak.xm.e4aaa137.Td" -fcolor-diagnostics -DTARGET_IPHONE=1 -O0 -Wall -ggdb -Werror  -isysroot "/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk" -target arm64-apple-ios13.0   -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=return-stack-address -std=c17 -fobjc-arc -DDEBUG -O0  -DTHEOS_INSTANCE_NAME="\"UmamusumeLocalify\"" -fmodules -fcxx-modules -fmodule-name=UmamusumeLocalify -fbuild-session-file=/Users/kjo0927/umamusume-localify-ios/.theos/build_session -fmodules-prune-after=345600 -fmodules-prune-interval=86400 -fmodules-validate-once-per-build-session  -arch arm64       -stdlib=libc++  -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=return-stack-address -std=c++20 -fobjc-arc -Isrc/rapidjson/include      /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/Tweak.xm.mm -o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/Tweak.xm.e4aaa137.o)
+(rm /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/Tweak.xm.mm)
+(mkdir -p /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/)
+(printf "\e[0;3%im==> \e[1;39m%s…\e[m\n" 2 "Compiling src/Tweak.xm (arm64e)"); set -o pipefail; (/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -x objective-c++ -c -I"/Users/kjo0927/umamusume-localify-ios/src" -I/Users/kjo0927/theos/include -I/Users/kjo0927/theos/vendor/include -I/Users/kjo0927/theos/include/_fallback -include /Users/kjo0927/theos/Prefix.pch -MT /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/Tweak.xm.ee373efb.o -MMD -MP -MF "/Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/Tweak.xm.ee373efb.Td" -fcolor-diagnostics -DTARGET_IPHONE=1 -O0 -Wall -ggdb -Werror  -isysroot "/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk" -target arm64e-apple-ios13.0   -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=return-stack-address -std=c17 -fobjc-arc -DDEBUG -O0  -DTHEOS_INSTANCE_NAME="\"UmamusumeLocalify\"" -fmodules -fcxx-modules -fmodule-name=UmamusumeLocalify -fbuild-session-file=/Users/kjo0927/umamusume-localify-ios/.theos/build_session -fmodules-prune-after=345600 -fmodules-prune-interval=86400 -fmodules-validate-once-per-build-session  -arch arm64e       -stdlib=libc++  -Wno-error=unused-function -Wno-error=unused-variable -Wno-error=return-stack-address -std=c++20 -fobjc-arc -Isrc/rapidjson/include      /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/Tweak.xm.mm -o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/Tweak.xm.ee373efb.o)
+(rm /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/Tweak.xm.mm)
+ 
+fcntl(): Bad file descriptor
+
+fcntl(): Bad file descriptor
+
+(mkdir -p /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e)
+(printf "\e[0;3%im==> \e[1;39m%s…\e[m\n" 3 "Linking tweak UmamusumeLocalify (arm64e)"); set -o pipefail; (/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -fcolor-diagnostics -L/Users/kjo0927/theos/lib -ggdb -L/Users/kjo0927/theos/vendor/lib -lobjc -framework Foundation -framework CoreFoundation -ObjC++ -fobjc-exceptions -fobjc-call-cxx-cdtors              -F/Users/kjo0927/theos/vendor/lib -framework CydiaSubstrate -dynamiclib -install_name "/Library/MobileSubstrate/DynamicLibraries/UmamusumeLocalify.dylib"  -isysroot "/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk" -target arm64e-apple-ios13.0  -multiply_defined suppress -stdlib=libc++ -lc++  -arch arm64e  -O0 -o "/Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/UmamusumeLocalify.dylib" /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/utils.m.ee373efb.o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/Tweak.xm.ee373efb.o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/hook.cpp.ee373efb.o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/il2cpp_hook.cpp.ee373efb.o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/localify/localify.cpp.ee373efb.o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/src/il2cpp/il2cpp_symbols.cpp.ee373efb.o)
+(printf "\e[0;3%im==> \e[1;39m%s…\e[m\n" 4 "Generating debug symbols for UmamusumeLocalify"); set -o pipefail; (/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil "/Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/UmamusumeLocalify.dylib")
+(mkdir -p /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64)
+(printf "\e[0;3%im==> \e[1;39m%s…\e[m\n" 3 "Linking tweak UmamusumeLocalify (arm64)"); set -o pipefail; (/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -fcolor-diagnostics -L/Users/kjo0927/theos/lib -ggdb -L/Users/kjo0927/theos/vendor/lib -lobjc -framework Foundation -framework CoreFoundation -ObjC++ -fobjc-exceptions -fobjc-call-cxx-cdtors              -F/Users/kjo0927/theos/vendor/lib -framework CydiaSubstrate -dynamiclib -install_name "/Library/MobileSubstrate/DynamicLibraries/UmamusumeLocalify.dylib"  -isysroot "/Applications/Xcode-beta.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk" -target arm64-apple-ios13.0  -multiply_defined suppress -stdlib=libc++ -lc++  -arch arm64  -O0 -o "/Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/UmamusumeLocalify.dylib" /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/utils.m.e4aaa137.o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/Tweak.xm.e4aaa137.o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/hook.cpp.e4aaa137.o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/il2cpp_hook.cpp.e4aaa137.o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/localify/localify.cpp.e4aaa137.o /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/src/il2cpp/il2cpp_symbols.cpp.e4aaa137.o)
+(printf "\e[0;3%im==> \e[1;39m%s…\e[m\n" 4 "Generating debug symbols for UmamusumeLocalify"); set -o pipefail; (/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil "/Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/UmamusumeLocalify.dylib")
+ 
+fcntl(): Bad file descriptor
+
+(printf "\e[0;3%im==> \e[1;39m%s…\e[m\n" 4 "Merging tweak UmamusumeLocalify"); set -o pipefail; (/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo -arch arm64 /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64/UmamusumeLocalify.dylib -arch arm64e /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/arm64e/UmamusumeLocalify.dylib -create -output "/Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/UmamusumeLocalify.dylib.73eb587b.unsigned")
+ 
+fcntl(): Bad file descriptor
+
+(printf "\e[0;3%im==> \e[1;39m%s…\e[m\n" 4 "Signing UmamusumeLocalify"); set -o pipefail; (CODESIGN_ALLOCATE=/Applications/Xcode-beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate  ldid -S "/Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/UmamusumeLocalify.dylib.73eb587b.unsigned" && mv "/Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/UmamusumeLocalify.dylib.73eb587b.unsigned" "/Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/UmamusumeLocalify.dylib")
+rm /Users/kjo0927/umamusume-localify-ios/.theos/obj/debug/UmamusumeLocalify.dylib.73eb587b.unsigned
+ 
+fcntl(): Bad file descriptor
+
+:
+ 
+fcntl(): Bad file descriptor
+
+:
+ 
+make: Leaving directory '/Users/kjo0927/umamusume-localify-ios'
+ 
