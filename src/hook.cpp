@@ -2,6 +2,7 @@
 #include "il2cpp_hook.h"
 #include "localify/localify.h"
 #include "stdinclude.hpp"
+#include <dlfcn.h>
 #include <sstream>
 #include <thread>
 
@@ -35,6 +36,18 @@ HOOK_DEF(void *, dlopen, const char *name, int flags) {
   void *handle = orig_dlopen(name, flags);
   dlopen_process(name, handle);
   return handle;
+}
+
+HOOK_DEF(int, il2cpp_init, char *domainName) {
+  auto res = orig_il2cpp_init(domainName);
+  std::thread init_thread([]() {
+    // logger::init_logger();
+    // localify::load_textdb(get_application_version(), &dict.value());
+    il2cpp_hook_init(il2cpp_handle);
+    il2cpp_hook();
+  });
+  init_thread.detach();
+  return res;
 }
 
 std::optional<std::vector<std::string>> read_config() {
@@ -148,21 +161,26 @@ std::optional<std::vector<std::string>> read_config() {
 }
 
 extern "C" void hack_thread(void *args) {
-  MSHookFunction(reinterpret_cast<void *>(dlopen),
+  il2cpp_handle = args;
+  auto il2cpp_init = dlsym(il2cpp_handle, "il2cpp_init");
+  MSHookFunction(reinterpret_cast<void *>(il2cpp_init),
+                 reinterpret_cast<void *>(new_il2cpp_init),
+                 reinterpret_cast<void **>(&orig_il2cpp_init));
+  /* MSHookFunction(reinterpret_cast<void *>(dlopen),
                  reinterpret_cast<void *>(new_dlopen),
-                 reinterpret_cast<void **>(&orig_dlopen));
+                 reinterpret_cast<void **>(&orig_dlopen)); */
 
   // auto dict = read_config();
 
-  while (!il2cpp_handle) {
+  /* while (!il2cpp_handle) {
     sleep(1);
-  }
+  } */
 
-  std::thread init_thread([]() {
+  /* std::thread init_thread([]() {
     // logger::init_logger();
     // localify::load_textdb(get_application_version(), &dict.value());
     il2cpp_hook_init(il2cpp_handle);
     il2cpp_hook();
   });
-  init_thread.detach();
+  init_thread.detach(); */
 }

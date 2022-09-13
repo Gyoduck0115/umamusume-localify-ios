@@ -1,5 +1,7 @@
 #import "utils.h"
+#include <Foundation/NSString.h>
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @implementation Utils
 
@@ -19,5 +21,9 @@
                                              name:(NSString *)name {
   return [path stringByAppendingPathComponent:name];
 }
+
+/* + (NSString *)getDocumentPath {
+  return NSFileManager.NSSearchPathDirectory.documentDirectory;
+} */
 
 @end

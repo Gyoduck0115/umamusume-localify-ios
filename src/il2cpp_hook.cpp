@@ -676,6 +676,7 @@ void UIManager_UpdateCanvasScaler_hook(Il2CppObject *canvasScaler) {
 void *SetResolution_orig = nullptr;
 
 void SetResolution_hook(int w, int h, bool fullscreen, bool forceUpdate) {
+  LOGD("SetResolution_hook w: %d, h: %d", w, h);
   if (!resolutionIsSet || GetUnityVersion() == Unity2020) {
     if (sceneManager) {
       resolutionIsSet = true;
@@ -1106,6 +1107,7 @@ void hookMethods() {
     ADD_HOOK(Screen_set_orientation)
     ADD_HOOK(DeviceOrientationGuide_Show)
     ADD_HOOK(ChangeScreenOrientation)
+    Screen_set_orientation_hook(ScreenOrientation::Landscape);
   }
 
   if (g_replace_to_builtin_font || g_replace_to_custom_font) {

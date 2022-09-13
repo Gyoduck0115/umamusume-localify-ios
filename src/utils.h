@@ -12,4 +12,6 @@
 + (NSString *)getNSStringByAppendingPathComponent:(NSString *)path
                                              name:(NSString *)name;
 
+// + (NSString*) getDocumentPath;
+
 @end

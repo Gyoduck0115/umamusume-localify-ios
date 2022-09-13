@@ -100,11 +100,18 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
 	NSString* bundleId = [[NSBundle mainBundle] bundleIdentifier];
 	
 	LOGI("Bundle Identifier: %s", [Utils getCString: bundleId]);
-    
+
+	// NSString* path = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDirectory.userDomainMask, true)[0];
+    NSString* frameworkPath = [[NSBundle mainBundle] privateFrameworksPath];
+	NSString* frameworkName = @"UnityFramework.framework/UnityFramework";
+	NSString* frameworkFullPath = [Utils getNSStringByAppendingPathComponent:frameworkPath name:frameworkName];
+	const char* frameworkFullPathCString = [Utils getCString:frameworkFullPath];
+	void* unityFramework = dlopen(frameworkFullPathCString, RTLD_LAZY);
+
     int ret;
 	pthread_t ntid;
     if ((ret = pthread_create(&ntid, nullptr,
-                              reinterpret_cast<void *(*)(void *)>(hack_thread), nullptr))) {
+                              reinterpret_cast<void *(*)(void *)>(hack_thread), unityFramework))) {
         LOGE("can't create thread: %s\n", strerror(ret));
     }
 }
