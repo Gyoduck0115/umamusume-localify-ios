@@ -1,9 +1,9 @@
+#include <thread>
+
+#include "il2cpp/il2cpp-class.h"
 #include "il2cpp_hook.h"
 #include "localify/localify.h"
 #include "stdinclude.hpp"
-#include <MacTypes.h>
-#include <codecvt>
-#include <thread>
 
 using namespace std;
 using namespace il2cpp_symbols;
@@ -48,13 +48,13 @@ Il2CppBoolean GetBoolean(bool value) {
 Il2CppObject *GetCustomFont() {
   if (!assets)
     return nullptr;
-  return load_assets(assets, il2cpp_string_new(g_font_asset_name.data()),
+  return load_assets(assets, il2cpp_string_new(g_font_asset_name),
                      GetRuntimeType("UnityEngine.TextRenderingModule.dll",
                                     "UnityEngine", "Font"));
 }
 
 string GetUnityVersion() {
-  string version(localify::u16_u8(get_unityVersion()->start_char));
+  string version(u16_u8(get_unityVersion()->start_char));
   return version;
 }
 
@@ -64,14 +64,14 @@ bool populate_with_errors_hook(void *thisObj, Il2CppString *str,
                                TextGenerationSettings_t *settings,
                                void *context) {
   return reinterpret_cast<decltype(populate_with_errors_hook) *>(
-      populate_with_errors_orig)(thisObj, localify::get_localized_string(str),
-                                 settings, context);
+      populate_with_errors_orig)(thisObj, get_localized_string(str), settings,
+                                 context);
 }
 
 void *localizeextension_text_orig = nullptr;
 
 Il2CppString *localizeextension_text_hook(int id) {
-  Il2CppString *localized = localify::get_localized_string(id);
+  Il2CppString *localized = get_localized_string(id);
   return localized ? localized
                    : reinterpret_cast<decltype(localizeextension_text_hook) *>(
                          localizeextension_text_orig)(id);
@@ -82,8 +82,7 @@ void *get_preferred_width_orig = nullptr;
 float get_preferred_width_hook(void *thisObj, Il2CppString *str,
                                TextGenerationSettings_t *settings) {
   return reinterpret_cast<decltype(get_preferred_width_hook) *>(
-      get_preferred_width_orig)(thisObj, localify::get_localized_string(str),
-                                settings);
+      get_preferred_width_orig)(thisObj, get_localized_string(str), settings);
 }
 
 void *localize_get_orig = nullptr;
@@ -91,7 +90,7 @@ void *localize_get_orig = nullptr;
 Il2CppString *localize_get_hook(int id) {
   auto orig_result =
       reinterpret_cast<decltype(localize_get_hook) *>(localize_get_orig)(id);
-  auto result = localify::get_localized_string(id);
+  auto result = get_localized_string(id);
 
   return result ? result : orig_result;
 }
@@ -131,7 +130,7 @@ void *an_text_set_material_to_textmesh_orig = nullptr;
 void an_text_set_material_to_textmesh_hook(Il2CppObject *thisObj) {
   reinterpret_cast<decltype(an_text_set_material_to_textmesh_hook) *>(
       an_text_set_material_to_textmesh_orig)(thisObj);
-  if (!assets)
+  if (!(assets && g_replace_to_custom_font))
     return;
 
   FieldInfo *mainField =
@@ -212,7 +211,7 @@ void an_text_fix_data_hook(Il2CppObject *thisObj) {
   FieldInfo *field = il2cpp_class_get_field_from_name(thisObj->klass, "_text");
   Il2CppString *str;
   il2cpp_field_get_value(thisObj, field, &str);
-  il2cpp_field_set_value(thisObj, field, localify::get_localized_string(str));
+  il2cpp_field_set_value(thisObj, field, get_localized_string(str));
 }
 
 void *update_orig = nullptr;
@@ -229,7 +228,7 @@ std::unordered_map<void *, bool> text_queries;
 void *query_ctor_orig = nullptr;
 
 void *query_ctor_hook(void *thisObj, void *conn, Il2CppString *sql) {
-  auto sqlQuery = localify::u16_wide(sql->start_char);
+  auto sqlQuery = u16_wide(sql->start_char);
 
   if (sqlQuery.find(L"text_data") != std::string::npos ||
       sqlQuery.find(L"character_system_text") != std::string::npos ||
@@ -259,7 +258,7 @@ Il2CppString *query_getstr_hook(void *thisObj, int32_t idx) {
       query_getstr_orig)(thisObj, idx);
 
   if (text_queries.contains(thisObj))
-    return localify::get_localized_string(result);
+    return get_localized_string(result);
 
   return result;
 }
@@ -292,7 +291,7 @@ void *story_timeline_controller_play_hook(Il2CppObject *thisObj) {
   il2cpp_field_get_value(timelineData, StoryTimelineDataClass_TitleField,
                          &title);
   il2cpp_field_set_value(timelineData, StoryTimelineDataClass_TitleField,
-                         localify::get_localized_string(title));
+                         get_localized_string(title));
 
   Il2CppObject *blockList;
   il2cpp_field_get_value(timelineData, StoryTimelineDataClass_BlockListField,
@@ -347,11 +346,11 @@ void *story_timeline_controller_play_hook(Il2CppObject *thisObj) {
           Il2CppString *name;
           il2cpp_field_get_value(clipData, nameField, &name);
           il2cpp_field_set_value(clipData, nameField,
-                                 localify::get_localized_string(name));
+                                 get_localized_string(name));
           Il2CppString *text;
           il2cpp_field_get_value(clipData, textField, &text);
           il2cpp_field_set_value(clipData, textField,
-                                 localify::get_localized_string(text));
+                                 get_localized_string(text));
           Il2CppObject *choiceDataList;
           il2cpp_field_get_value(clipData, choiceDataListField,
                                  &choiceDataList);
@@ -373,9 +372,8 @@ void *story_timeline_controller_play_hook(Il2CppObject *thisObj) {
               Il2CppString *choiceDataText;
               il2cpp_field_get_value(choiceData, choiceDataTextField,
                                      &choiceDataText);
-              il2cpp_field_set_value(
-                  choiceData, choiceDataTextField,
-                  localify::get_localized_string(choiceDataText));
+              il2cpp_field_set_value(choiceData, choiceDataTextField,
+                                     get_localized_string(choiceDataText));
             }
           }
           Il2CppObject *colorTextInfoList;
@@ -400,9 +398,8 @@ void *story_timeline_controller_play_hook(Il2CppObject *thisObj) {
               Il2CppString *colorTextInfoText;
               il2cpp_field_get_value(colorTextInfo, colorTextInfoTextField,
                                      &colorTextInfoText);
-              il2cpp_field_set_value(
-                  colorTextInfo, colorTextInfoTextField,
-                  localify::get_localized_string(colorTextInfoText));
+              il2cpp_field_set_value(colorTextInfo, colorTextInfoTextField,
+                                     get_localized_string(colorTextInfoText));
             }
           }
         }
@@ -439,8 +436,7 @@ void story_race_textasset_load_hook(Il2CppObject *thisObj) {
         il2cpp_class_get_field_from_name(key->klass, "text")};
     Il2CppString *text;
     il2cpp_field_get_value(key, textField, &text);
-    il2cpp_field_set_value(key, textField,
-                           localify::get_localized_string(text));
+    il2cpp_field_set_value(key, textField, get_localized_string(text));
   }
 
   reinterpret_cast<decltype(story_race_textasset_load_hook) *>(
@@ -478,9 +474,14 @@ void on_populate_hook(Il2CppObject *thisObj, void *toFill) {
   if (g_replace_to_custom_font) {
     auto font = text_get_font(thisObj);
     Il2CppString *name = uobject_get_name(font);
-    if (g_font_asset_name.find(localify::u16_u8(name->start_char)) ==
+    if (string(g_font_asset_name).find(u16_u8(name->start_char)) ==
         string::npos) {
-      text_set_font(thisObj, GetCustomFont());
+      auto font = GetCustomFont();
+      if (font) {
+        text_set_font(thisObj, font);
+      } else {
+        LOGW("Font not load");
+      }
     }
   }
 
@@ -500,8 +501,7 @@ void textcommon_awake_hook(Il2CppObject *thisObj) {
       text_set_font(thisObj, customFont);
     }
   }
-  text_set_text(thisObj,
-                localify::get_localized_string(text_get_text(thisObj)));
+  text_set_text(thisObj, get_localized_string(text_get_text(thisObj)));
   reinterpret_cast<decltype(textcommon_awake_hook) *>(textcommon_awake_orig)(
       thisObj);
 }
@@ -511,7 +511,7 @@ void *get_modified_string_orig = nullptr;
 Il2CppString *get_modified_string_hook(Il2CppString *text, Il2CppObject *input,
                                        bool allowNewLine) {
   if (!allowNewLine) {
-    auto u8str = localify::u16_u8(text->start_char);
+    auto u8str = u16_u8(text->start_char);
     replaceAll(u8str, "\n", "");
     return il2cpp_string_new(u8str.data());
   }
@@ -600,7 +600,7 @@ Il2CppBoolean load_one_hook(Il2CppObject *thisObj, Il2CppObject *handle,
       il2cpp_class_get_field_from_name(request->klass, "hname");
   Il2CppString *hName = nullptr;
   il2cpp_field_get_value(request, hNameField, &hName);
-  auto hNameStr = localify::u16_u8(hName->start_char);
+  auto hNameStr = u16_u8(hName->start_char);
 
   if (g_replace_assets.find(hNameStr) != g_replace_assets.end()) {
     auto &replaceAsset = g_replace_assets.at(hNameStr);
@@ -676,7 +676,6 @@ void UIManager_UpdateCanvasScaler_hook(Il2CppObject *canvasScaler) {
 void *SetResolution_orig = nullptr;
 
 void SetResolution_hook(int w, int h, bool fullscreen, bool forceUpdate) {
-  LOGD("SetResolution_hook w: %d, h: %d", w, h);
   if (!resolutionIsSet || GetUnityVersion() == Unity2020) {
     if (sceneManager) {
       resolutionIsSet = true;
@@ -755,7 +754,7 @@ Il2CppBoolean Device_IsIllegalUser_hook() {
   return Il2CppBoolean{.m_value = false};
 }
 
-void init_il2cpp_api(){
+void init_il2cpp_api() {
 #define DO_API(r, n, p) n = (r(*) p)dlsym(il2cpp_handle, #n)
 
 #include "il2cpp/il2cpp-api-functions.h"
@@ -981,11 +980,11 @@ void hookMethods() {
                                          "UnityEngine", "AssetBundle",
                                          "LoadFromFile", 1));
 
-  /*auto load_from_memory_async = reinterpret_cast<Il2CppObject *(*)(
-          Il2CppArray *bytes)>(il2cpp_symbols::get_method_pointer(
-          "UnityEngine.AssetBundleModule.dll", "UnityEngine", "AssetBundle",
-          "LoadFromMemoryAsync",
-          1));*/
+  auto load_from_memory_async =
+      reinterpret_cast<Il2CppObject *(*)(Il2CppArray * bytes)>(
+          il2cpp_symbols::get_method_pointer(
+              "UnityEngine.AssetBundleModule.dll", "UnityEngine", "AssetBundle",
+              "LoadFromMemoryAsync", 1));
 
   auto assetbundle_unload_addr =
       reinterpret_cast<Il2CppObject *(*)(Il2CppString * path)>(
@@ -998,26 +997,31 @@ void hookMethods() {
       il2cpp_symbols::get_method_pointer("_Cyan.dll", "Cyan.Loader",
                                          "AssetLoader", "LoadOne", 2));
 
-  if (!assets && !g_font_assetbundle_path.empty()) {
-    auto assetbundlePath = localify::u8_u16(g_font_assetbundle_path);
+  if (g_replace_to_custom_font && !assets && !string(g_font_assetbundle_path).empty()) {
+    auto assetbundlePath = u8_u16(string(g_font_assetbundle_path));
     if (!assetbundlePath.starts_with(u"/")) {
-      assetbundlePath.insert(
-          0, u16string(u"/sdcard/Android/data/")
-                 .append(localify::u8_u16(Game::GetCurrentPackageName()))
-                 .append(u"/"));
+      assetbundlePath.insert(0,
+                             u16string(u8_u16(g_document_path)).append(u"/"));
     }
-    assets = load_from_file(il2cpp_string_new_utf16(assetbundlePath.data(),
-                                                    assetbundlePath.length()));
+    std::thread load_thread([]() {
+      sleep(1);
+      auto assetbundlePath = u8_u16(string(g_font_assetbundle_path));
+      if (!assetbundlePath.starts_with(u"/")) {
+        assetbundlePath.insert(0,
+                               u16string(u8_u16(g_document_path)).append(u"/"));
+      }
+      assets = load_from_file(il2cpp_string_new_utf16(
+          assetbundlePath.data(), assetbundlePath.length()));
 
-    if (!assets && filesystem::exists(assetbundlePath)) {
-      LOGW("Asset founded but not loaded. Maybe Asset BuildTarget "
-           "is not for "
-           "iOS");
-    }
+      if (!assets && filesystem::exists(assetbundlePath)) {
+        LOGW("Asset founded but not loaded. Maybe Asset BuildTarget is not for "
+             "iOS");
+      }
+    });
+    load_thread.detach();
 
     /* Load from Memory Async
-
-     std::ifstream infile(localify::u16_u8(assetbundlePath).data(),
+    std::ifstream infile(u16_u8(assetbundlePath).data(),
     std::ios_base::binary);
 
     std::vector<char> buffer((std::istreambuf_iterator<char>(infile)),
@@ -1035,15 +1039,15 @@ void hookMethods() {
             Il2CppObject* thisObj)>(il2cpp_symbols::get_method_pointer(
             "UnityEngine.AssetBundleModule.dll", "UnityEngine",
     "AssetBundleCreateRequest", "get_assetBundle", 0)); auto get_isDone =
-    reinterpret_cast<Il2CppObject *(*)( Il2CppObject*
+    reinterpret_cast<Il2CppBoolean (*)( Il2CppObject*
     thisObj)>(il2cpp_symbols::get_method_pointer( "UnityEngine.CoreModule.dll",
     "UnityEngine", "AsyncOperation", "get_isDone", 0));
 
     std::thread load_thread([createReq, get_assetBundle, get_isDone]() {
-        while (!get_isDone(createReq)) {}
+        while (!get_isDone(createReq).m_value) {}
         assets = get_assetBundle(createReq);
     });
-    load_thread.detach();*/
+    load_thread.detach(); */
   }
 
   if (!assets) {
@@ -1055,8 +1059,7 @@ void hookMethods() {
 #define ADD_HOOK(_name_)                                                       \
   LOGD("ADD_HOOK: %s", #_name_);                                               \
   MSHookFunction((void *)_name_##_addr, (void *)_name_##_hook,                 \
-                 (void **)&_name_##_orig);                                     \
-  LOGW("%s %p", #_name_, _name_##_orig);
+                 (void **)&_name_##_orig);
 #pragma endregion
 
   ADD_HOOK(Device_IsIllegalUser)
@@ -1153,14 +1156,6 @@ void il2cpp_hook_init(void *handle) {
   il2cpp_thread_attach(domain);
 
   il2cpp_symbols::init(domain);
-}
-
-char *get_application_version() {
-  auto version = string(localify::u16_u8(
-      reinterpret_cast<Il2CppString *(*)()>(il2cpp_symbols::get_method_pointer(
-          "umamusume.dll", "Gallop", "DeviceHelper", "GetAppVersionName", -1))()
-          ->start_char));
-  return version.data();
 }
 
 void il2cpp_hook() { hookMethods(); }

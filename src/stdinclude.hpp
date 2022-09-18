@@ -10,7 +10,6 @@
 #include <vector>
 #include <sstream>
 #include <fstream>
-// #include <dobby.h>
 #include <CydiaSubstrate.h>
 #include <pthread.h>
 #include <unordered_map>
@@ -28,7 +27,7 @@
 
 #include "il2cpp/il2cpp-class.h"
 
-#include "preferences.h"
+#include "preferences.hpp"
 
 #if defined(__ARM_ARCH_7A__)
 #define ABI "armeabi-v7a"
@@ -42,19 +41,7 @@
 #define ABI "unknown"
 #endif
 
-struct ReplaceAsset
-{
-    std::string path;
-    Il2CppObject *asset;
-};
-
 using namespace std;
-
-extern bool g_replace_to_builtin_font;
-extern bool g_replace_to_custom_font;
-extern string g_font_assetbundle_path;
-extern string g_font_asset_name;
-extern std::unordered_map<std::string, ReplaceAsset> g_replace_assets;
 
 namespace
 {

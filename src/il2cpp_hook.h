@@ -8,8 +8,6 @@ extern "C"
 
 void il2cpp_hook_init(void *handle);
 
-char * get_application_version();
-
 void il2cpp_hook();
 
 #ifdef __cplusplus
