@@ -11,6 +11,8 @@ extern const char *g_bundle_version;
 
 extern const char *g_document_path;
 
+extern bool g_static_entries_use_hash;
+
 extern int g_max_fps;
 extern float g_ui_animation_scale;
 extern bool g_ui_use_system_resolution;

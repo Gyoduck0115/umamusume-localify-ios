@@ -71,10 +71,12 @@ bool populate_with_errors_hook(void *thisObj, Il2CppString *str,
 void *localizeextension_text_orig = nullptr;
 
 Il2CppString *localizeextension_text_hook(int id) {
-  Il2CppString *localized = get_localized_string(id);
-  return localized ? localized
-                   : reinterpret_cast<decltype(localizeextension_text_hook) *>(
-                         localizeextension_text_orig)(id);
+  auto orig_result = reinterpret_cast<decltype(localizeextension_text_hook) *>(
+      localizeextension_text_orig)(id);
+  auto result = g_static_entries_use_hash
+                    ? localify::get_localized_string(orig_result)
+                    : localify::get_localized_string(id);
+  return result ? result : orig_result;
 }
 
 void *get_preferred_width_orig = nullptr;
@@ -90,7 +92,9 @@ void *localize_get_orig = nullptr;
 Il2CppString *localize_get_hook(int id) {
   auto orig_result =
       reinterpret_cast<decltype(localize_get_hook) *>(localize_get_orig)(id);
-  auto result = get_localized_string(id);
+  auto result = g_static_entries_use_hash
+                    ? localify::get_localized_string(orig_result)
+                    : localify::get_localized_string(id);
 
   return result ? result : orig_result;
 }

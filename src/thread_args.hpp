@@ -3,6 +3,7 @@
 struct Config {
   const char *bundle_version;
   const char *document_path;
+  bool static_entries_use_hash;
   int max_fps;
   float ui_animation_scale;
   bool ui_use_system_resolution;

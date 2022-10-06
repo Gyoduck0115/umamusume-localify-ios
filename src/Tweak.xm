@@ -18,6 +18,8 @@ const char *bundle_version;
 
 const char *document_path;
 
+bool static_entries_use_hash = false;
+
 int max_fps = 30;
 float ui_animation_scale = 1.0f;
 bool ui_use_system_resolution = false;
@@ -96,6 +98,12 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
   /* NSNumber * enabledValue = (NSNumber *)[[NSUserDefaults
   standardUserDefaults] objectForKey:@"enabled" inDomain:nsDomainString];
   enabled = (enabledValue)? [enabledValue boolValue] : true; */
+
+  NSNumber *staticEntriesUseHash =
+      (NSNumber *)[[NSUserDefaults standardUserDefaults]
+          objectForKey:@"staticEntriesUseHash"
+              inDomain:nsDomainString];
+  static_entries_use_hash = (staticEntriesUseHash) ? [staticEntriesUseHash boolValue] : false;
 
   NSNumber *maxFpsValue = (NSNumber *)[[NSUserDefaults standardUserDefaults]
       objectForKey:@"maxFps"
@@ -250,6 +258,7 @@ static void notificationCallback(CFNotificationCenterRef center, void *observer,
   thread_args->config = (Config *)malloc(sizeof(Config));
   thread_args->config->bundle_version = bundle_version;
   thread_args->config->document_path = document_path;
+  thread_args->config->static_entries_use_hash = static_entries_use_hash;
   thread_args->config->max_fps = max_fps;
   thread_args->config->ui_animation_scale = ui_animation_scale;
   thread_args->config->ui_use_system_resolution = ui_use_system_resolution;

@@ -19,6 +19,8 @@ const char *g_bundle_version;
 
 const char *g_document_path;
 
+bool g_static_entries_use_hash = false;
+
 int g_max_fps = 30;
 float g_ui_animation_scale = 1.0f;
 bool g_ui_use_system_resolution = false;
@@ -218,6 +220,7 @@ extern "C" void hack_thread(void *args) {
 
   g_bundle_version = config->bundle_version;
   g_document_path = config->document_path;
+  g_static_entries_use_hash = config->static_entries_use_hash;
   g_max_fps = config->max_fps;
   g_ui_animation_scale = config->ui_animation_scale;
   g_ui_use_system_resolution = config->ui_use_system_resolution;
